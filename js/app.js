@@ -9,7 +9,6 @@ loadProducts();
 // ------------show all product in UI -----------
 
 const showProducts = (products) => {
-  console.log(products);
   const allProducts = products.map((pd) => pd);
   for (const product of allProducts) {
     const image = product.image;
@@ -22,8 +21,9 @@ const showProducts = (products) => {
       <h4>${product.title}</h4>
       <p>Category: ${product.category}</p>
       <h3>Price: $ ${product.price}</h3>
-      <h5><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>  ${product.rating.rate} (${product.rating.count})</h5>
-      <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
+      <h5><i id="s1" class="fas fa-star text-warning"></i> <i id="s2" class="fas fa-star text-warning"></i><i id="s3" class="fas fa-star text-warning"></i><i id="s4" class="fas fa-star text-warning"></i><i id="s5" class="fas fa-star text-muted"></i>  ${product.rating.rate} (${product.rating.count} Ratings)</h5>
+     
+      <button onclick="addToCart(${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
       <button onclick="loadProductsById(${product.id})" id="details-btn" class="btn btn-danger">Details</button></div>
       `;
     document.getElementById("all-products").appendChild(div);
@@ -33,7 +33,7 @@ const showProducts = (products) => {
 // --------------add to cart -------------
 
 let count = 0;
-const addToCart = (id, price) => {
+const addToCart = (price) => {
   count = count + 1;
   updatePrice("price", price);
 
@@ -56,7 +56,7 @@ const updatePrice = (id, value) => {
   const convertedOldPrice = getInputValue(id);
   const convertPrice = parseFloat(value);
   const total = convertedOldPrice + convertPrice;
-  document.getElementById(id).innerText = total;
+  document.getElementById(id).innerText = total.toFixed(2);
 };
 
 // --------------------set innerText function ----------------
@@ -92,7 +92,7 @@ const updateTotal = () => {
     getInputValue("total-tax");
   document.getElementById("total").innerText = grandTotal.toFixed(2);
 };
-// load products by id
+// -----------load products by id-------------
 const loadProductsById = (id) => {
   const url = `https://fakestoreapi.com/products/${id}`;
   fetch(url)
@@ -122,4 +122,8 @@ const showDetails = (product) => {
 </div>
 `;
   parent.appendChild(modal);
+
 }
+
+
+
