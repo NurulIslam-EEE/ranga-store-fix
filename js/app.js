@@ -12,20 +12,103 @@ const showProducts = (products) => {
   const allProducts = products.map((pd) => pd);
   for (const product of allProducts) {
     const image = product.image;
+    const rating = Math.round(product.rating.rate);
     const div = document.createElement("div");
     div.classList.add("product");
-    div.innerHTML = `<div class="single-product">
+    if (rating === 5) {
+      div.innerHTML += `
+      <div class="single-product">
       <div>
     <img class="product-image" src=${image}></img>
       </div>
-      <h4>${product.title}</h4>
+      <h5>${product.title}</h5>
       <p>Category: ${product.category}</p>
-      <h3>Price: $ ${product.price}</h3>
-      <h5><i id="s1" class="fas fa-star text-warning"></i> <i id="s2" class="fas fa-star text-warning"></i><i id="s3" class="fas fa-star text-warning"></i><i id="s4" class="fas fa-star text-warning"></i><i id="s5" class="fas fa-star text-muted"></i>  ${product.rating.rate} (${product.rating.count} Ratings)</h5>
-     
+      <h4>Price: $ ${product.price}</h4>
+      <p>  
+      <i class="fas fa-star text-warning"></i> 
+      <i class="fas fa-star text-warning"></i>
+      <i class="fas fa-star text-warning"></i>
+      <i class="fas fa-star text-warning"></i>
+      <i class="fas fa-star text-warning"></i> 
+      ${product.rating.rate} (${product.rating.count} Ratings)</p>
       <button onclick="addToCart(${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button onclick="loadProductsById(${product.id})" id="details-btn" class="btn btn-danger">Details</button></div>
-      `;
+      <button  id="details-btn" class="btn btn-danger" >Details</button></div>`;
+    } else if (rating === 4) {
+      div.innerHTML += `
+      <div class="single-product">
+      <div>
+      <img class="product-image" src=${image}></img>
+      </div>
+      <h5>${product.title}</h5>
+      <p>Category: ${product.category}</p>
+      <h4>Price: $ ${product.price}</h4>
+      <p>  
+      <i class="fas fa-star text-warning"></i> 
+      <i class="fas fa-star text-warning"></i>
+      <i class="fas fa-star text-warning"></i>
+      <i class="fas fa-star text-warning"></i>
+      <i class="fas fa-star text-muted"></i>
+      ${product.rating.rate} (${product.rating.count} Ratings)</p>
+      <button onclick="addToCart(${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
+      <button  id="details-btn" class="btn btn-danger" >Details</button></div>`;
+    }
+    else if (rating === 3) {
+      div.innerHTML += `
+      <div class="single-product">
+      <div>
+      <img class="product-image" src=${image}></img>
+      </div>
+      <h5>${product.title}</h5>
+      <p>Category: ${product.category}</p>
+      <h4>Price: $ ${product.price}</h4>
+      <p>  
+      <i class="fas fa-star text-warning"></i> 
+      <i class="fas fa-star text-warning"></i>
+      <i class="fas fa-star text-warning"></i>
+      <i class="fas fa-star text-muted"></i>
+      <i class="fas fa-star text-muted"></i>
+      ${product.rating.rate} (${product.rating.count} Ratings)</p>
+      <button onclick="addToCart(${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
+      <button  id="details-btn" class="btn btn-danger" >Details</button></div>`;
+    }
+    else if (rating === 2) {
+      div.innerHTML += `
+      <div class="single-product">
+      <div>
+    <img class="product-image" src=${image}></img>
+      </div>
+      <h5>${product.title}</h5>
+      <p>Category: ${product.category}</p>
+      <h4>Price: $ ${product.price}</h4>
+      <p>  
+      <i class="fas fa-star text-warning"></i> 
+      <i class="fas fa-star text-warning"></i>
+      <i class="fas fa-star text-muted"></i>
+      <i class="fas fa-star text-muted"></i>
+      <i class="fas fa-star text-muted"></i>
+      ${product.rating.rate} (${product.rating.count} Ratings)</p>
+      <button onclick="addToCart(${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
+      <button  id="details-btn" class="btn btn-danger" >Details</button></div>`;
+    }
+    else {
+      div.innerHTML += `
+      <div class="single-product">
+      <div>
+      <img class="product-image" src=${image}></img>
+      </div>
+      <h5>${product.title}</h5>
+      <p>Category: ${product.category}</p>
+      <h4>Price: $ ${product.price}</h4>
+      <p>  
+      <i class="fas fa-star text-warning"></i> 
+      <i class="fas fa-star text-muted"></i>
+      <i class="fas fa-star text-muted"></i>
+      <i class="fas fa-star text-muted"></i>
+      <i class="fas fa-star text-muted"></i>
+      ${product.rating.rate} (${product.rating.count} Ratings)</p>
+      <button onclick="addToCart(${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
+      <button id="details-btn" class="btn btn-danger">Details</button></div>`;
+    }
     document.getElementById("all-products").appendChild(div);
   }
 };
@@ -92,38 +175,9 @@ const updateTotal = () => {
     getInputValue("total-tax");
   document.getElementById("total").innerText = grandTotal.toFixed(2);
 };
-// -----------load products by id-------------
-const loadProductsById = (id) => {
-  const url = `https://fakestoreapi.com/products/${id}`;
-  fetch(url)
-    .then(response => response.json())
-    .then(data => showDetails(data))
-}
-// ----------show details---------
-const showDetails = (product) => {
 
-  const parent = document.getElementById('details');
-  const modal = document.createElement('div');
-  parent.innerHTML = '';
-  modal.innerHTML = `
-  <div class="card mb-3" style="max-width: 540px;">
-  <div class="row g-0">
-    <div class="col-md-4">
-      <img src="${product.image}" class="img-fluid rounded-start p-2" alt="...">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title">${product.title}</h5>
-        <p class="card-text">${product.description}</p>
-       
-      </div>
-    </div>
-  </div>
-</div>
-`;
-  parent.appendChild(modal);
 
-}
+
 
 
 
