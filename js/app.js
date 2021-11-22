@@ -10,7 +10,9 @@ loadProducts();
 
 const showProducts = (products) => {
   const allProducts = products.map((pd) => pd);
+  console.log(products[0])
   for (const product of allProducts) {
+
     const image = product.image;
     const rating = Math.round(product.rating.rate);
     const div = document.createElement("div");
@@ -32,7 +34,7 @@ const showProducts = (products) => {
       <i class="fas fa-star text-warning"></i> 
       ${product.rating.rate} (${product.rating.count} Ratings)</p>
       <button onclick="addToCart(${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button  id="details-btn" class="btn btn-danger" >Details</button></div>`;
+      <button onclick="loadProductsById(${product.id})"  id="details-btn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Details</button></div>`;
     } else if (rating === 4) {
       div.innerHTML += `
       <div class="single-product">
@@ -50,7 +52,7 @@ const showProducts = (products) => {
       <i class="fas fa-star text-muted"></i>
       ${product.rating.rate} (${product.rating.count} Ratings)</p>
       <button onclick="addToCart(${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button  id="details-btn" class="btn btn-danger" >Details</button></div>`;
+      <button onclick="loadProductsById(${product.id})"  id="details-btn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Details</button></div>`;
     }
     else if (rating === 3) {
       div.innerHTML += `
@@ -69,7 +71,7 @@ const showProducts = (products) => {
       <i class="fas fa-star text-muted"></i>
       ${product.rating.rate} (${product.rating.count} Ratings)</p>
       <button onclick="addToCart(${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button  id="details-btn" class="btn btn-danger" >Details</button></div>`;
+      <button onclick="loadProductsById(${product.id})"  id="details-btn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Details</button></div>`;
     }
     else if (rating === 2) {
       div.innerHTML += `
@@ -88,7 +90,7 @@ const showProducts = (products) => {
       <i class="fas fa-star text-muted"></i>
       ${product.rating.rate} (${product.rating.count} Ratings)</p>
       <button onclick="addToCart(${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button  id="details-btn" class="btn btn-danger" >Details</button></div>`;
+      <button onclick="loadProductsById(${product.id})"  id="details-btn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Details</button></div>`;
     }
     else {
       div.innerHTML += `
@@ -107,7 +109,7 @@ const showProducts = (products) => {
       <i class="fas fa-star text-muted"></i>
       ${product.rating.rate} (${product.rating.count} Ratings)</p>
       <button onclick="addToCart(${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button id="details-btn" class="btn btn-danger">Details</button></div>`;
+      <button onclick="loadProductsById(${product.id})" id="details-btn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Details</button></div>`;
     }
     document.getElementById("all-products").appendChild(div);
   }
@@ -178,6 +180,40 @@ const updateTotal = () => {
 
 
 
+// -----------load products by id-------------
+const loadProductsById = (id) => {
+  const url = `https://fakestoreapi.com/products/${id}`;
+  fetch(url)
+    .then(response => response.json())
+    .then(data => showDetails(data))
+}
+
+// ----------show details---------
+
+const showDetails = (product) => {
+  // const title = document.getElementById('mtitle');
+  const body = document.getElementById('mbody');
+  const span = document.createElement('p');
+  console.log(product, title, body);
+  // title.innerText = `${product.title}`;
+  span.innerText = ` ${product.description}`;
+  body.appendChild(span);
+}
+
+
+// const showDetails = (product) => {
+//     console.log(product)
+//     const parent = document.getElementById('details');
+//     parent.innerHTML = '';
+//     const detailsDiv = document.createElement('div');
+//     detailsDiv.classList.add('details2');
+//     detailsDiv.innerHTML = `
+//    <h1> ${product.title}</h1>
+//    <p> ${product.description}</>
+//   `;
+//     parent.appendChild(detailsDiv);
+
+// }
 
 
 
